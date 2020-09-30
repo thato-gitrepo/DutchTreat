@@ -26,7 +26,10 @@ namespace DutchTreat
             app.UseDefaultFiles();
 
             //static files saved in wwwroot dir - treated as the root of the web server
-            app.UseStaticFiles();            
+            app.UseStaticFiles();
+
+            //Use node modules
+            app.UseNodeModules();
         }
     }
 }
