@@ -28,11 +28,11 @@ namespace DutchTreat.Data
             //Check if database exists
             _ctx.Database.EnsureCreated();
 
-            if(!_ctx.Products.Any())
+            if (!_ctx.Products.Any())
             {
                 //Path to json file - configure file route [_hosting]
                 var filepath = Path.Combine(_hosting.ContentRootPath, "Data/art.json");
-                
+
                 //Read Json File
                 var json = File.ReadAllText(filepath);
 
@@ -44,13 +44,17 @@ namespace DutchTreat.Data
 
                 //Create sample data
                 var order = _ctx.Orders.Where(o => o.Id == 1).FirstOrDefault();
-                if(order != null)
+
+                if (order != null)
                 {
-                    new OrderItem()
+                    order.Items = new List<OrderItem>()
                     {
-                        Product = products.First(),
-                        Quantity = 5,
-                        UnitPrice = products.First().Price
+                        new OrderItem()
+                        {
+                            Product = products.First(),
+                            Quantity = 5,
+                            UnitPrice = products.First().Price
+                        }
                     };
                 }
                 _ctx.SaveChanges();

@@ -11,6 +11,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using AutoMapper;
+using System.Reflection;
 
 namespace DutchTreat
 {
@@ -35,6 +39,9 @@ namespace DutchTreat
             //Register seeder - AddTransient : Can inject as a Service
             services.AddTransient<DutchSeeder>();
 
+            //Inject Automapper into Controllers - Look for profiles
+            services.AddAutoMapper(Assembly.GetExecutingAssembly());
+
             //Support for mail service
             services.AddTransient<INullMailService, NullMailService>();
 
@@ -42,7 +49,11 @@ namespace DutchTreat
             services.AddScoped<IDutchRepository, DutchRepository>();
 
             //Call MVC Views
-            services.AddControllersWithViews();
+            //services.AddControllersWithViews();
+
+            services.AddMvc()
+                .SetCompatibilityVersion(CompatibilityVersion.Version_3_0)
+                .AddNewtonsoftJson(opt => opt.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

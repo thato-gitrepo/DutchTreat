@@ -13,6 +13,8 @@ namespace DutchTreat.Data
         public DutchContext(DbContextOptions<DutchContext> options): base(options)
         {
         }
+
+        //Properties you want to query against
         public DbSet<Product> Products { get; set; }
         public DbSet<Order> Orders { get; set; }
 
